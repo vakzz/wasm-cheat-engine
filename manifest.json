@@ -11,10 +11,13 @@
     }
   ],
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "contextMenus",
+    "localStorage"
   ],
   "browser_action": {
-    "default_title": "Cheat Engine for WASM"
+    "default_title": "Cheat Engine for WASM",
+    "default_popup": "popup.html"
   },
   "web_accessible_resources": ["cheat.js"],
   "manifest_version": 2

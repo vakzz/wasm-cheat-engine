@@ -57,6 +57,20 @@ var CheatEngine = class {
     return res;
   }
 
+  list() {
+    const res = [];
+    this.matched.forEach((v, i) => {
+      res.push(`0x${i.toString(16)}: ${this.orig[i]}`);
+    });
+    return res;
+  }
+
+  get count() {
+    let i = 0;
+    this.matched.forEach(() => i++);
+    return i;
+  }
+
   print() {
     console.log(this.show());
   }
@@ -82,15 +96,58 @@ var CheatEngine = class {
   }
 };
 
+const send = (type, data) => {
+  window.postMessage(
+    {
+      type: type,
+      data: data
+    },
+    "*"
+  );
+};
+
 (async () => {
   while (!window.Module || !window.Module.HEAP32) {
     await new Promise(resolve => setTimeout(resolve, 500));
   }
   window.cheat = new CheatEngine(window.Module);
+  const cheat = window.cheat;
+  send("msg", "loaded");
 
-  console.log("cheat.js posting message");
-  window.postMessage({
-    type: "aType",
-    data: "someData"
-  }, "*");
+  window.addEventListener("message", function(event) {
+    // console.log("cheat.js window mesg", event);
+    const data = event.data.data;
+    switch (event.data.type) {
+    case "save":
+      cheat.save();
+      send("result", `save - ${cheat.matched.length} results`);
+      break;
+    case "eq":
+      cheat.eq(data);
+      send("result", `eq - ${cheat.count} results eq ${data}`);
+      break;
+    case "ne":
+      cheat.ne(data);
+      send("result", `ne - ${cheat.count} results ne ${data}`);
+      break;
+    case "lt":
+      cheat.lt(data);
+      send("result", `lt - ${cheat.count} results lt ${data}`);
+      break;
+    case "gt":
+      cheat.gt(data);
+      send("result", `gt - ${cheat.count} results gt ${data}`);
+      break;
+    case "fixAll":
+      cheat.fixAll(data);
+      send("result", `fixAll - ${cheat.count} fixed to ${data}`);
+      break;
+    case "show":
+      send("result", cheat.list().join("\n"));
+      break;
+    case "count":
+      send("result", `${cheat.count} results`);
+      break;
+    }
+  });
 })();
