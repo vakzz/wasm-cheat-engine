@@ -1,0 +1,16 @@
+{
+  "name": "cheat_engine",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "permissions": [
+    "storage"
+  ],
+  "dependencies": {
+    "eslint": "^5.9.0",
+    "prettier": "^1.15.2"
+  },
+  "devDependencies": {
+    "prettier-eslint": "^8.8.2"
+  }
+}
