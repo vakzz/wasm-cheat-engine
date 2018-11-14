@@ -41,6 +41,10 @@ document.addEventListener("DOMContentLoaded", function() {
     sendData("fixAll", getNum());
   };
 
+  document.getElementById("unfixAll").onclick = () => {
+    sendData("unfixAll");
+  };
+
   document.getElementById("heap").onchange = (e) => {
     sendData("heap", e.target.value);
   };

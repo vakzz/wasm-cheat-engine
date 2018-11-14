@@ -3,39 +3,70 @@
 
 <head>
     <title>Cheat Engine for WASM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="bulma.min.css">
     <style type="text/css">
-    body,
-    pre {
-        width: 200px;
-        max-width: 200px;
-        word-wrap: break-word;
-        overflow-y: scroll;
+    body {
+        min-width: 350px;
+        padding: 10px;
     }
     </style>
 </head>
 
 <body>
-    <select id="heap">
-        <option value="HEAP8">HEAP8</option>
-        <option value="HEAP16">HEAP16</option>
-        <option value="HEAP32" selected>HEAP32</option>
-        <option value="HEAPF32">HEAPF32</option>
-        <option value="HEAPF64">HEAPF64</option>
-        <option value="HEAPU8">HEAPU8</option>
-        <option value="HEAPU16">HEAPU16</option>
-        <option value="HEAPU32">HEAPU32</option>
-    </select>
-    <button id="save">save</button>
-    <button id="eq">eq</button>
-    <button id="ne">ne</button>
-    <button id="lt">lt</button>
-    <button id="gt">gt</button>
-    <button id="show">show</button>
-    <button id="count">count</button>
-    <button id="fixAll">fixAll</button>
-    <br>
-    <input type="text" name="text" id="text">
-    <pre id="result">Loaded</pre>
+    <div class="container">
+        <article class="message is-small">
+            <div class="message-header">WASM Cheat Engine</div>
+            <div class="field message-body">
+                <div class="control">
+                    <button id="save" class="button is-small is-primary">Save All</button>
+                    <div class="select is-small">
+                        <select id="heap">
+                            <option value="HEAP8">HEAP8</option>
+                            <option value="HEAP16">HEAP16</option>
+                            <option value="HEAP32" selected>HEAP32</option>
+                            <option value="HEAPF32">HEAPF32</option>
+                            <option value="HEAPF64">HEAPF64</option>
+                            <option value="HEAPU8">HEAPU8</option>
+                            <option value="HEAPU16">HEAPU16</option>
+                            <option value="HEAPU32">HEAPU32</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <article class="message is-small">
+            <div class="message-header">Filter</div>
+            <div class="message-body">
+                <button id="eq" class="button is-small is-link is-outlined">Eq</button>
+                <button id="ne" class="button is-small is-link is-outlined">Ne</button>
+                <button id="lt" class="button is-small is-link is-outlined">Lt</button>
+                <button id="gt" class="button is-small is-link is-outlined">Gt</button>
+                <p class="help">Compares to param if set, otherwise the previous value</p>
+            </div>
+        </article>
+        <article class="message is-small">
+            <div class="message-header">Param</div>
+            <div class="message-body">
+                <input type="text" name="text" id="text" class="input" placeholder="200">
+                <p class="help">Value use for filtering and fixing</p>
+            </div>
+        </article>
+        <article class="message is-small">
+            <div class="message-header">Actions</div>
+            <div class="message-body">
+                <button id="show" class="button is-small is-info">Show</button>
+                <button id="count" class="button is-small is-success">Count</button>
+                <button id="fixAll" class="button is-small is-danger">Fix All</button>
+                <button id="unfixAll" class="button is-small">Unfix All</button>
+                <p class="help">Fix all will set all the current results to the param every 200ms</p>
+            </div>
+        </article>
+        <article class="message is-small">
+            <div class="message-header">Results</div>
+            <pre id="result" class="message-body">Loaded</pre>
+        </article>
+    </div>
     <script src="popup.js"></script>
 </body>
 

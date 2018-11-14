@@ -104,12 +104,15 @@ var CheatEngine = class {
 
   unfix(index) {
     clearInterval(this.fixed[index]);
+    delete this.fixed[index];
   }
 
   fixAll(value) {
-    this.matched.forEach((v, i) => {
-      this.fix(i, value);
-    });
+    for (var i = this.matched.lsb(); i < this.matched.msb(); i++) {
+      if (this.matched.get(i)) {
+        this.fix(i, value);
+      }
+    }
   }
 
   unfixAll() {
@@ -165,6 +168,12 @@ const send = (type, data) => {
       cheat.fixAll(data);
       send("result", `fixAll - ${cheat.count} fixed to ${data}`);
       break;
+    case "unfixAll": {
+      const count = cheat.fixed.length;
+      cheat.unfixAll();
+      send("result", `unfixAll - ${count} unfixed`);
+      break;
+    }
     case "show":
       send("result", cheat.list().join("\n"));
       break;
