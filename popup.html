@@ -1,29 +1,42 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Cheat Engine for WASM</title>
-	<style type="text/css">
-		body, pre {
-			width: 200px;
-			max-width: 200px;
-			word-wrap: break-word;
-			overflow-y: scroll;
-		}
-	</style>
-</head>
-<body>
-	<button id="save">save</button>
-	<button id="eq">eq</button>
-	<button id="ne">ne</button>
-	<button id="lt">lt</button>
-	<button id="gt">gt</button>
-	<button id="show">show</button>
-	<button id="count">count</button>
-	<button id="fixAll">fixAll</button>
-	<br>
-	<input type="text" name="text" id="text">
 
-	<pre id="result">Loaded</pre>
-	<script src="popup.js"></script>
+<head>
+    <title>Cheat Engine for WASM</title>
+    <style type="text/css">
+    body,
+    pre {
+        width: 200px;
+        max-width: 200px;
+        word-wrap: break-word;
+        overflow-y: scroll;
+    }
+    </style>
+</head>
+
+<body>
+    <select id="heap">
+        <option value="HEAP8">HEAP8</option>
+        <option value="HEAP16">HEAP16</option>
+        <option value="HEAP32" selected>HEAP32</option>
+        <option value="HEAPF32">HEAPF32</option>
+        <option value="HEAPF64">HEAPF64</option>
+        <option value="HEAPU8">HEAPU8</option>
+        <option value="HEAPU16">HEAPU16</option>
+        <option value="HEAPU32">HEAPU32</option>
+    </select>
+    <button id="save">save</button>
+    <button id="eq">eq</button>
+    <button id="ne">ne</button>
+    <button id="lt">lt</button>
+    <button id="gt">gt</button>
+    <button id="show">show</button>
+    <button id="count">count</button>
+    <button id="fixAll">fixAll</button>
+    <br>
+    <input type="text" name="text" id="text">
+    <pre id="result">Loaded</pre>
+    <script src="popup.js"></script>
 </body>
+
 </html>

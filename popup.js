@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("text").value = localStorage.getItem("text");
   }
 
+  if (localStorage.getItem("heap")) {
+    document.getElementById("heap").value = localStorage.getItem("heap");
+  }
+
   chrome.runtime.onMessage.addListener(function(request) {
     // console.log("popup.js runtime mesg", request);
     localStorage.setItem("result", request.data);
@@ -36,11 +40,18 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("fixAll").onclick = () => {
     sendData("fixAll", getNum());
   };
+
+  document.getElementById("heap").onchange = (e) => {
+    sendData("heap", e.target.value);
+  };
+
+  sendData("heap", document.getElementById("heap").value);
 });
 
 const getNum = () => {
-  const num = Number(document.getElementById("text").value);
-  if (isNaN(num)) {
+  const t = document.getElementById("text").value;
+  const num = Number(t);
+  if (!t || isNaN(num)) {
     return;
   } else {
     return num;
@@ -50,6 +61,7 @@ const getNum = () => {
 const sendData = (type, data) => {
   document.getElementById("result").innerText = "";
   localStorage.setItem("text", document.getElementById("text").value);
+  localStorage.setItem("heap", document.getElementById("heap").value);
   chrome.tabs.query({ currentWindow: true, active: true }, function(tabs) {
     var activeTab = tabs[0];
     chrome.tabs.sendMessage(
