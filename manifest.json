@@ -18,6 +18,6 @@
     "default_title": "Cheat Engine for WASM",
     "default_popup": "popup.html"
   },
-  "web_accessible_resources": ["cheat.js"],
+  "web_accessible_resources": ["cheat.js", "bitset.min.js"],
   "manifest_version": 2
 }
