@@ -167,7 +167,6 @@ const send = (type, data) => {
       break;
     case "heap":
       cheat.setHeap(data);
-      send("result", `heap is now ${data}`);
       break;
     }
   });

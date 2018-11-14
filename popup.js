@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   chrome.runtime.onMessage.addListener(function(request) {
-    // console.log("popup.js runtime mesg", request);
     localStorage.setItem("result", request.data);
     document.getElementById("result").innerText = request.data;
   });
