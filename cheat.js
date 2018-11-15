@@ -4,6 +4,7 @@ var CheatEngine = class {
     this.module = module;
     this.fixed = [];
     this.heap = "HEAP32";
+    this.stored = null;
   }
 
   save() {
@@ -38,12 +39,20 @@ var CheatEngine = class {
     }
   }
 
-  gt() {
-    this.fn((stored, current) => current > stored);
+  gt(val) {
+    if (val === undefined || val === null) {
+      this.fn((stored, current) => current > stored);
+    } else {
+      this.fn((stored, current) => current > val);
+    }
   }
 
-  lt() {
-    this.fn((stored, current) => current < stored);
+  lt(val) {
+    if (val === undefined || val === null) {
+      this.fn((stored, current) => current < stored);
+    } else {
+      this.fn((stored, current) => current < val);
+    }
   }
 
   fn(test) {
@@ -52,6 +61,7 @@ var CheatEngine = class {
         this.matched.set(i, 0);
       }
     }
+    this.stored = this.orig.slice();
     console.log("done");
   }
 
@@ -76,7 +86,7 @@ var CheatEngine = class {
   }
 
   get count() {
-    return this.matched.cardinality();
+    return this.matched.cardinality() - 1;
   }
 
   print() {
@@ -95,7 +105,11 @@ var CheatEngine = class {
   fixAll(value) {
     for (var i = this.matched.lsb(); i < this.matched.msb(); i++) {
       if (this.matched.get(i)) {
-        this.fix(i, value);
+        if (value === undefined || value === null) {
+          this.fix(i, value);
+        } else {
+          this.fix(i, this.stored[i]);
+        }
       }
     }
   }
@@ -122,12 +136,12 @@ const send = (type, data) => {
     await new Promise(resolve => setTimeout(resolve, 500));
   }
   window.cheat = new CheatEngine(window.Module);
-  const cheat = window.cheat;
   send("msg", "loaded");
 
   window.addEventListener("message", function(event) {
-    // console.log("cheat.js window mesg", event);
+    const cheat = window.cheat;
     const data = event.data.data;
+    const type = (data === undefined || data === null) ? "previous value" : data;
     switch (event.data.type) {
     case "save":
       cheat.save();
@@ -135,30 +149,28 @@ const send = (type, data) => {
       break;
     case "eq":
       cheat.eq(data);
-      send("result", `eq - ${cheat.count} results eq ${data}`);
+      send("result", `eq - ${cheat.count} results eq ${type}`);
       break;
     case "ne":
       cheat.ne(data);
-      send("result", `ne - ${cheat.count} results ne ${data}`);
+      send("result", `ne - ${cheat.count} results ne ${type}`);
       break;
     case "lt":
       cheat.lt(data);
-      send("result", `lt - ${cheat.count} results lt ${data}`);
+      send("result", `lt - ${cheat.count} results lt ${type}`);
       break;
     case "gt":
       cheat.gt(data);
-      send("result", `gt - ${cheat.count} results gt ${data}`);
+      send("result", `gt - ${cheat.count} results gt ${type}`);
       break;
     case "fixAll":
       cheat.fixAll(data);
-      send("result", `fixAll - ${cheat.count} fixed to ${data}`);
+      send("result", `fixAll - ${cheat.count} fixed to ${type}`);
       break;
-    case "unfixAll": {
-      const count = cheat.fixed.length;
+    case "unfixAll":
       cheat.unfixAll();
-      send("result", `unfixAll - ${count} unfixed`);
+      send("result", "unfixed all");
       break;
-    }
     case "show":
       send("result", cheat.list().join("\n"));
       break;

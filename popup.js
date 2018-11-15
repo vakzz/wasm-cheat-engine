@@ -28,6 +28,14 @@ document.addEventListener("DOMContentLoaded", function() {
     sendData("ne", getNum());
   };
 
+  document.getElementById("lt").onclick = () => {
+    sendData("lt", getNum());
+  };
+
+  document.getElementById("gt").onclick = () => {
+    sendData("gt", getNum());
+  };
+
   document.getElementById("show").onclick = () => {
     sendData("show");
   };
