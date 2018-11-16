@@ -94,6 +94,9 @@ var CheatEngine = class {
   }
 
   fix(index, value) {
+    if (this.fixed[index]) {
+      this.unfix(index);
+    }
     this.fixed[index] = setInterval(() => (this.orig[index] = value), 200);
   }
 
@@ -106,9 +109,9 @@ var CheatEngine = class {
     for (var i = this.matched.lsb(); i < this.matched.msb(); i++) {
       if (this.matched.get(i)) {
         if (value === undefined || value === null) {
-          this.fix(i, value);
-        } else {
           this.fix(i, this.stored[i]);
+        } else {
+          this.fix(i, value);
         }
       }
     }
