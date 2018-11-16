@@ -3,8 +3,8 @@
 
 
   window.addEventListener("message", function(event) {
-    if (event.data.type === "result") {
-      chrome.runtime.sendMessage({data: event.data.data});
+    if (event.data.type === "result" || event.data.type === "hash") {
+      chrome.runtime.sendMessage(event.data);
     }
   });
 

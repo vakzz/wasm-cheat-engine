@@ -12,8 +12,32 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   chrome.runtime.onMessage.addListener(function(request) {
-    localStorage.setItem("result", request.data);
-    document.getElementById("result").innerText = request.data;
+    if (request.type === "result") {
+      localStorage.setItem("result", request.data);
+      document.getElementById("result").innerText = request.data;
+    } else if (request.type === "hash") {
+      const table = document.createElement("table");
+      table.classList.add("table", "is-striped", "is-bordered");
+      const thead = table.createTHead();
+      let row = thead.insertRow();
+      let cell = row.insertCell();
+      cell.innerText = "Index";
+      cell = row.insertCell();
+      cell.innerText = "Value";
+
+
+      const tbody = table.createTBody();
+
+      Object.keys(request.data).forEach((i) => {
+        row = tbody.insertRow();
+        cell = row.insertCell();
+        cell.innerText = `0x${i.toString(16)}`;
+        cell = row.insertCell();
+        cell.innerText = `${request.data[i]}`;
+      });
+      document.getElementById("result").innerHtml = "";
+      document.getElementById("result").appendChild(table);
+    }
   });
 
   document.getElementById("save").onclick = () => {

@@ -172,7 +172,7 @@ const send = (type, data) => {
       send("result", "unfixed all");
       break;
     case "show":
-      send("result", cheat.list().join("\n"));
+      send("hash", cheat.show());
       break;
     case "count":
       send("result", `${cheat.count} results`);
