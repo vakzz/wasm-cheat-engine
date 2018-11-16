@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
       Object.keys(request.data).forEach((i) => {
         row = tbody.insertRow();
         cell = row.insertCell();
-        cell.innerText = `0x${i.toString(16)}`;
+        cell.innerText = `${i}`;
         cell = row.insertCell();
         cell.innerText = `${request.data[i]}`;
       });
